@@ -1,0 +1,22 @@
+import {readFile,stat,readdir} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const html = await readFile('dist/index.html','utf8');
+const js = await readFile('dist/app.js','utf8');
+const css = await readFile('dist/styles.css','utf8');
+const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match=>match[1]);
+assert.equal(ids.length,new Set(ids).size,'Duplicate IDs');
+for (const [,id] of html.matchAll(/(?:href="#|aria-controls=")([^"\s]+)"/g)) assert(ids.includes(id),`Missing anchor: ${id}`);
+const paths = new Set([...html.matchAll(/(?:src|href)="(\/[^"#?]+)"/g)].map(match=>match[1]));
+for(const asset of paths) assert((await stat('dist'+asset)).size>0,`Missing asset ${asset}`);
+for(const [,file] of js.matchAll(/image:'([^']+)'/g)) assert((await stat('dist/assets/'+file)).size>0);
+assert.equal((html.match(/<h1\b/g)||[]).length,1,'One main heading');
+assert(html.includes('lang="pt-BR"'));
+assert(css.includes('prefers-reduced-motion'));
+const business=JSON.parse(await readFile('dist/business.json','utf8'));
+assert.equal(business.whatsapp,'5531999728064');
+assert.equal(business.officialDomain,null);
+const lum = hex => {const rgb=hex.match(/\w\w/g).map(x=>parseInt(x,16)/255).map(x=>x<=.04045?x/12.92:((x+.055)/1.055)**2.4);return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2]};
+const pairs=[['30392c','f5f2eb'],['676a5e','f5f2eb'],['676a5e','ece8de'],['fffdf7','394632'],['d4dbc9','394632'],['536047','ece8de'],['646b5b','f5f2eb'],['626956','ece8de']];
+for(const [fg,bg] of pairs){const a=lum(fg),b=lum(bg),contrast=(Math.max(a,b)+.05)/(Math.min(a,b)+.05);console.log(`${fg}/${bg}: ${contrast.toFixed(2)}:1`);assert(contrast>=4.5,`Insufficient contrast ${fg}`);}
+const files=await readdir('dist/assets');
+console.log(`PASS: ${paths.size} local references, ${ids.length} unique IDs, ${files.length} image assets, contacts and contrast.`);
