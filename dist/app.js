@@ -182,13 +182,15 @@ function measureMotion() {
     travelingBotanicalWrap.style.top = `${b0.top.toFixed(1)}px`;
     travelingBotanicalWrap.style.width = `${b0.width.toFixed(1)}px`;
 
+    const isMobile = window.innerWidth <= 820;
+    const docY0 = mainTopDoc + b0.centerY;
     const docY1 = mainTopDoc + b1.centerY;
     const docY2 = mainTopDoc + b2.centerY;
 
-    const leg1Start = Math.max(18, vh * 0.05);
-    const leg1End = Math.max(leg1Start + 180, docY1 - vh * 0.68);
-    const leg2Start = Math.max(leg1End + 80, docY1 - vh * 0.34);
-    const leg2End = Math.max(leg2Start + 240, docY2 - vh * 0.6);
+    const leg1Start = isMobile ? Math.max(36, docY0 - vh * 0.52) : Math.max(18, vh * 0.05);
+    const leg1End = isMobile ? Math.max(leg1Start + 160, docY1 - vh * 0.58) : Math.max(leg1Start + 180, docY1 - vh * 0.68);
+    const leg2Start = isMobile ? Math.max(leg1End + 60, docY1 - vh * 0.28) : Math.max(leg1End + 80, docY1 - vh * 0.34);
+    const leg2End = isMobile ? Math.max(leg2Start + 200, docY2 - vh * 0.55) : Math.max(leg2Start + 240, docY2 - vh * 0.6);
 
     botanicalFlight.active = true;
     botanicalFlight.leg1Start = leg1Start;
@@ -204,13 +206,16 @@ function measureMotion() {
   }
 
   if (mainEl && faqFlowerAnchor && contactFlowerAnchor && travelingFlowers) {
+    const isMobile = window.innerWidth <= 820;
     const startBox = getLayoutBoxInMain(faqFlowerAnchor, mainEl);
     const endBox = getLayoutBoxInMain(contactFlowerAnchor, mainEl);
     const startCenterY = mainTopDoc + startBox.centerY;
     const endCenterY = mainTopDoc + endBox.centerY;
 
-    const endScroll = Math.max(120, Math.min(endCenterY - vh * 0.52, maxScroll - 20));
-    const startScroll = Math.max(0, Math.min(startCenterY - vh * 0.56, endScroll - Math.min(440, vh * 0.52)));
+    const endScroll = Math.max(120, Math.min(endCenterY - vh * (isMobile ? 0.58 : 0.52), maxScroll - 16));
+    const startScroll = isMobile
+      ? Math.max(0, Math.min(startCenterY - vh * 0.45, endScroll - 260))
+      : Math.max(0, Math.min(startCenterY - vh * 0.56, endScroll - Math.min(440, vh * 0.52)));
 
     flowerFlight.active = true;
     flowerFlight.startScroll = startScroll;
@@ -351,9 +356,10 @@ function tick(now) {
     const idleRotX = Math.cos(t * 1.7 + 0.5) * 6;
     const idleRotY = Math.sin(t * 1.25 + 0.5) * 7.5;
 
+    const lateralScale = window.innerWidth <= 820 ? 0.25 : 1;
     const baseX = w1 * botanicalFlight.delta1X + w2 * botanicalFlight.delta2X;
     const baseY = w1 * botanicalFlight.delta1Y + w2 * botanicalFlight.delta2Y;
-    const arcX = step1 * 24 - arc1 * 30 + step2 * 30 + arc2 * 26;
+    const arcX = (step1 * 24 - arc1 * 30 + step2 * 30 + arc2 * 26) * lateralScale;
     const arcY = -arc1 * 28 - arc2 * 32;
 
     const tx = (baseX + arcX + idleX + cardTiltX * 22).toFixed(2);
@@ -395,7 +401,8 @@ function tick(now) {
     const idleRotX = Math.cos(t * 1.7 + 1.4) * 5.5;
     const idleRotY = Math.sin(t * 1.25 + 1.4) * 7;
 
-    const tx = (eased * flowerFlight.deltaX + stepWave * 22 - arc * 26 + idleX).toFixed(2);
+    const flowerLateralScale = window.innerWidth <= 820 ? 0.25 : 1;
+    const tx = (eased * flowerFlight.deltaX + (stepWave * 22 - arc * 26) * flowerLateralScale + idleX).toFixed(2);
     const ty = (eased * flowerFlight.deltaY - arc * 34 + idleY).toFixed(2);
     const rotZ = (arc * -14 + stepWave * 6 + idleRotZ + velClamp * 1.2).toFixed(2);
     const rotX = (arc * 18 + idleRotX + velClamp * 1.5).toFixed(2);
