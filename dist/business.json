@@ -2,6 +2,13 @@
   "name": "Sítio Imperador",
   "publicListingName": "Imperador Eventos",
   "city": "Betim",
+  "state": "MG",
+  "neighborhood": "Estância do Sereno (Bandeirinhas)",
+  "address": "Alameda dos Varjões, 51 - Estância do Sereno, Bandeirinhas, Betim - MG, 32657-500",
+  "coordinates": {
+    "lat": -20.0459,
+    "lng": -44.2793
+  },
   "whatsapp": "5531999728064",
   "phoneDisplay": "(31) 99972-8064",
   "instagram": "https://www.instagram.com/imperadoreventos/",

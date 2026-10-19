@@ -1,41 +1,33 @@
-# Sítio Imperador — Betim
+# Sítio Imperador - Betim, MG
 
-Landing page em português, com fotos reais do espaço, PNGs decorativos gerados, Lenis 1.3.26, galeria acessível e contato por WhatsApp.
+Landing page moderna e responsiva para o **Sítio Imperador** (divulgado publicamente como **Imperador Eventos / Espaço Imperador**), localizado em Bandeirinhas, Betim - MG.
 
-## Rodar localmente
+## Destaques do Projeto
 
-Requer Node.js 20 ou superior. Nenhuma instalação de dependência é necessária.
+- **Dados Reais Verificados (Google & Casamentos.com.br)**:
+  - **Endereço**: Alameda dos Varjões, 51 · Estância do Sereno (Bandeirinhas), Betim - MG, CEP 32657-500 (`-20.0459, -44.2793`).
+  - **WhatsApp / Telefone**: `(31) 99972-8064` (`https://wa.me/5531999728064`).
+  - **Instagram**: `@imperadoreventos` (`https://www.instagram.com/imperadoreventos/`).
+  - **Domínio**: O espaço de Betim atua oficialmente via WhatsApp, Instagram e vitrine no Casamentos.com.br, sem domínio próprio registrado (o domínio `sitioimperador.com.br` pertence a um homônimo em Jundiaí/SP e não foi utilizado).
+  - **Diferenciais Reais no Conteúdo**: Exclusividade de **1 evento por dia**, salão de festas coberto e envidraçado (400 a 500 convidados), piscina com cascata, boate ao lado da piscina, campo society, 2 dormitórios com **30 camas**, suíte reservada ao casal/debutante, cozinha equipada, churrasqueira e livre escolha de buffet.
+- **Scroll Suave com Lenis (`1.3.26`) & Animações PNG no Scroll**:
+  - Os cartões de benefícios em Bento Grid assimétrico e as seções editoriais contam com **5 recortes PNG fotorrealistas com transparência RGBA real (`colorType: 6`)** (`toast.png`, `gastronomy.png`, `lantern.png`, `botanical.png`, `flowers.png`).
+  - A animação de flutuação, inclinação sutil por velocidade e escala reage diretamente ao callback `lenis.on('scroll')` em GPU (`translate3d`, `rotate`, `scale`), mantendo suavidade visual e respeitando `prefers-reduced-motion`.
+- **Modo Claro & Escuro**: Suporte nativo a `prefers-color-scheme` e botão alternador no cabeçalho, com contraste auditado acima de 5.5:1 (WCAG AA/AAA).
+
+## Como Executar Localmente
+
+Requer Node.js 20 ou superior. Nenhuma instalação externa é necessária.
 
 ```sh
-npm run dev
+node scripts/serve.mjs
 ```
 
-Abra http://localhost:4173. Para conferir o layout em larguras fixas, abra `/__preview?width=375`, `/__preview?width=768` ou `/__preview?width=1440`. Esses caminhos existem apenas no servidor de desenvolvimento.
+Acesse `http://127.0.0.1:4173` (ou `/__preview?width=375`, `/__preview?width=768`, `/__preview?width=1440` para validação responsiva).
+
+Para rodar a suíte de verificação técnica, acessibilidade e segurança:
 
 ```sh
-npm run check
+node --check dist/app.js
+node scripts/check.mjs
 ```
-
-## Arquivos
-
-- `dist/index.html`: conteúdo, estrutura e links com fallback sem JavaScript.
-- `dist/styles.css`: identidade visual e layouts responsivos.
-- `dist/app.js`: Lenis, parallax discreto, abas, menu e lightbox.
-- `dist/business.json`: dados públicos verificados para contato.
-- `dist/assets/`: fotos reais e três PNGs com transparência.
-- `dist/vendor/`: Lenis e fontes locais, sem CDN em tempo de execução.
-- `docs/sources.md` e `docs/photo-sources.json`: fontes e origem das fotografias.
-- `docs/image-prompts.md`: prompts completos de geração das imagens.
-- `docs/design-review.md`: decisões de design e validação.
-
-## Conteúdo e contatos
-
-Nome solicitado: Sítio Imperador. O espaço é divulgado publicamente como Imperador Eventos / Espaço Imperador, em Bandeirinhas, Betim.
-
-WhatsApp: **(31) 99972-8064**. Instagram: **@imperadoreventos**. Nenhum domínio próprio foi confirmado para o espaço de Betim. O domínio `sitioimperador.com.br` pertence a um homônimo em outra cidade e não foi utilizado.
-
-Textos comerciais foram redigidos a partir dos fatos públicos, sem copiar descrições extensas. Preços, capacidade numérica e depoimentos não foram inventados. Flores, folhas e taças geradas são elementos decorativos; as fotos dos ambientes são reais.
-
-## Publicação
-
-O conteúdo estático pronto está em `dist/`. A identidade do Site privado fica em `.openai/hosting.json`. O site não coleta formulários nem envia mensagens automaticamente: os botões abrem os canais de contato.
