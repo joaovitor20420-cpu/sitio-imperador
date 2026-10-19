@@ -2097,6 +2097,17 @@ html[data-theme="dark"] .structure-cluster:hover {
   filter: none;
 }
 
+.js-motion .reveal.is-visible:not([data-tilt-card]) {
+  will-change: auto;
+}
+
+.structure,
+.gallery,
+.location,
+.site-footer {
+  contain: layout style;
+}
+
 .js-motion .glass-card.reveal {
   will-change: opacity, transform;
   filter: none;

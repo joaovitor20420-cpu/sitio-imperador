@@ -47,6 +47,15 @@ let lastScrollY = window.scrollY;
 let smoothVelocity = 0;
 let rafId = 0;
 
+let cachedVh = window.innerHeight || 800;
+let cachedMaxScroll = 1;
+let cachedHeroHeight = cachedVh;
+let cachedIsMobile = window.innerWidth <= 820;
+let lastProgressStr = '';
+let lastIsScrolled = null;
+let lastIsPastHero = null;
+let lastHeroScrollY = -1;
+
 const botanicalFlight = {
   active: false,
   leg1Start: 0,
@@ -105,12 +114,23 @@ tiltCards.forEach((card, idx) => {
     targetY: 0,
     curX: 0,
     curY: 0,
-    hovered: false
+    hovered: false,
+    rect: null,
+    rectScrollY: -1
   };
   cardStates.set(card, state);
 
+  card.addEventListener('pointerenter', () => {
+    state.rect = card.getBoundingClientRect();
+    state.rectScrollY = lastScrollY;
+  });
+
   card.addEventListener('pointermove', event => {
-    const rect = card.getBoundingClientRect();
+    if (!state.rect || Math.abs(state.rectScrollY - lastScrollY) > 1) {
+      state.rect = card.getBoundingClientRect();
+      state.rectScrollY = lastScrollY;
+    }
+    const rect = state.rect;
     if (!rect.width || !rect.height) return;
     const relX = (event.clientX - rect.left) / rect.width;
     const relY = (event.clientY - rect.top) / rect.height;
@@ -125,6 +145,7 @@ tiltCards.forEach((card, idx) => {
     state.targetX = 0;
     state.targetY = 0;
     state.hovered = false;
+    state.rect = null;
   });
 });
 
@@ -132,6 +153,10 @@ function measureMotion() {
   const currentScroll = lenis ? lenis.scroll : window.scrollY;
   const vh = window.innerHeight || 800;
   const maxScroll = Math.max(1, document.documentElement.scrollHeight - vh);
+  cachedVh = vh;
+  cachedMaxScroll = maxScroll;
+  cachedHeroHeight = heroSection ? heroSection.offsetHeight : vh;
+  cachedIsMobile = window.innerWidth <= 820;
   const mainTopDoc = mainEl ? mainEl.getBoundingClientRect().top + currentScroll : 0;
 
   floatItems = floatEls.map((el, idx) => {
@@ -162,7 +187,8 @@ function measureMotion() {
       top: rect.top + currentScroll,
       height: Math.max(rect.height, 1),
       strength: Number(el.dataset.parallax || 48),
-      curProgress: prev ? prev.curProgress : 0
+      curProgress: prev ? prev.curProgress : 0,
+      lastTy: ''
     };
   });
 
@@ -182,7 +208,7 @@ function measureMotion() {
     travelingBotanicalWrap.style.top = `${b0.top.toFixed(1)}px`;
     travelingBotanicalWrap.style.width = `${b0.width.toFixed(1)}px`;
 
-    const isMobile = window.innerWidth <= 820;
+    const isMobile = cachedIsMobile;
     const docY0 = mainTopDoc + b0.centerY;
     const docY1 = mainTopDoc + b1.centerY;
     const docY2 = mainTopDoc + b2.centerY;
@@ -206,7 +232,7 @@ function measureMotion() {
   }
 
   if (mainEl && faqFlowerAnchor && contactFlowerAnchor && travelingFlowers) {
-    const isMobile = window.innerWidth <= 820;
+    const isMobile = cachedIsMobile;
     const startBox = getLayoutBoxInMain(faqFlowerAnchor, mainEl);
     const endBox = getLayoutBoxInMain(contactFlowerAnchor, mainEl);
     const startCenterY = mainTopDoc + startBox.centerY;
@@ -242,21 +268,33 @@ function tick(now) {
   smoothVelocity += (targetVel - smoothVelocity) * 0.14;
   const velClamp = Math.max(-4, Math.min(4, smoothVelocity * 0.18));
 
-  const vh = window.innerHeight || 1;
-  const maxScroll = Math.max(1, document.documentElement.scrollHeight - vh);
+  const vh = cachedVh;
+  const maxScroll = cachedMaxScroll;
   const pageProgress = Math.max(0, Math.min(1, scrollY / maxScroll));
 
   if (scrollProgressEl) {
-    scrollProgressEl.style.transform = `scaleX(${pageProgress.toFixed(4)})`;
+    const progressStr = pageProgress.toFixed(4);
+    if (progressStr !== lastProgressStr) {
+      lastProgressStr = progressStr;
+      scrollProgressEl.style.transform = `scaleX(${progressStr})`;
+    }
   }
   if (siteHeader) {
-    siteHeader.classList.toggle('is-scrolled', scrollY > 18);
-    const heroHeight = heroSection ? heroSection.offsetHeight : vh;
-    siteHeader.classList.toggle('is-past-hero', scrollY > heroHeight - 64);
+    const isScrolled = scrollY > 18;
+    if (isScrolled !== lastIsScrolled) {
+      lastIsScrolled = isScrolled;
+      siteHeader.classList.toggle('is-scrolled', isScrolled);
+    }
+    const isPastHero = scrollY > cachedHeroHeight - 64;
+    if (isPastHero !== lastIsPastHero) {
+      lastIsPastHero = isPastHero;
+      siteHeader.classList.toggle('is-past-hero', isPastHero);
+    }
   }
 
   // Hero background deep parallax + subtle zoom
-  if (heroImage && scrollY < vh * 1.5) {
+  if (heroImage && scrollY < vh * 1.5 && Math.abs(scrollY - lastHeroScrollY) > 0.05) {
+    lastHeroScrollY = scrollY;
     const heroRatio = Math.max(0, Math.min(1.5, scrollY / vh));
     const shiftY = heroRatio * 115;
     const scaleVal = 1.04 + heroRatio * 0.06;
@@ -320,7 +358,11 @@ function tick(now) {
   }
 
   // 3-Section Botanical Leaf Flight: Hero (#hero-botanical-anchor) -> About (#about-botanical-anchor) -> Benefits (#benefit-botanical-anchor)
-  if (botanicalFlight.active && travelingBotanical) {
+  if (
+    botanicalFlight.active &&
+    travelingBotanical &&
+    (scrollY <= botanicalFlight.leg2End + vh * 1.25 || botanicalFlight.cur2 < 0.999)
+  ) {
     const span1 = Math.max(1, botanicalFlight.leg1End - botanicalFlight.leg1Start);
     const span2 = Math.max(1, botanicalFlight.leg2End - botanicalFlight.leg2Start);
     const target1 = Math.max(0, Math.min(1, (scrollY - botanicalFlight.leg1Start) / span1));
@@ -356,7 +398,7 @@ function tick(now) {
     const idleRotX = Math.cos(t * 1.7 + 0.5) * 6;
     const idleRotY = Math.sin(t * 1.25 + 0.5) * 7.5;
 
-    const lateralScale = window.innerWidth <= 820 ? 0.25 : 1;
+    const lateralScale = cachedIsMobile ? 0.25 : 1;
     const baseX = w1 * botanicalFlight.delta1X + w2 * botanicalFlight.delta2X;
     const baseY = w1 * botanicalFlight.delta1Y + w2 * botanicalFlight.delta2Y;
     const arcX = (step1 * 24 - arc1 * 30 + step2 * 30 + arc2 * 26) * lateralScale;
@@ -376,7 +418,11 @@ function tick(now) {
   }
 
   // Cross-Section 3D Flower Flight: from #faq-flower-anchor (#duvidas) -> #contact-flower-anchor (#contato)
-  if (flowerFlight.active && travelingFlowers) {
+  if (
+    flowerFlight.active &&
+    travelingFlowers &&
+    (scrollY >= flowerFlight.startScroll - vh * 1.25 || flowerFlight.cur > 0.001)
+  ) {
     const span = Math.max(1, flowerFlight.endScroll - flowerFlight.startScroll);
     const rawFlight = (scrollY - flowerFlight.startScroll) / span;
     const targetFlight = Math.max(0, Math.min(1, rawFlight));
@@ -401,7 +447,7 @@ function tick(now) {
     const idleRotX = Math.cos(t * 1.7 + 1.4) * 5.5;
     const idleRotY = Math.sin(t * 1.25 + 1.4) * 7;
 
-    const flowerLateralScale = window.innerWidth <= 820 ? 0.25 : 1;
+    const flowerLateralScale = cachedIsMobile ? 0.25 : 1;
     const tx = (eased * flowerFlight.deltaX + (stepWave * 22 - arc * 26) * flowerLateralScale + idleX).toFixed(2);
     const ty = (eased * flowerFlight.deltaY - arc * 34 + idleY).toFixed(2);
     const rotZ = (arc * -14 + stepWave * 6 + idleRotZ + velClamp * 1.2).toFixed(2);
@@ -421,7 +467,10 @@ function tick(now) {
     const targetProgress = Math.max(-1, Math.min(1, rawProgress));
     item.curProgress += (targetProgress - item.curProgress) * 0.12;
     const ty = (item.curProgress * item.strength).toFixed(2);
-    item.el.style.transform = `translate3d(0, ${ty}px, 0) scale(1.05)`;
+    if (ty !== item.lastTy) {
+      item.lastTy = ty;
+      item.el.style.transform = `translate3d(0, ${ty}px, 0) scale(1.05)`;
+    }
   }
 
   rafId = requestAnimationFrame(tick);

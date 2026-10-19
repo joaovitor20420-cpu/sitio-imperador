@@ -11,13 +11,14 @@
   <meta property="og:image" content="/assets/decor.jpg">
   <title>Sítio Imperador · Espaço de Festas e Eventos em Betim, MG</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preload" as="font" href="/vendor/font-2.ttf" type="font/ttf" crossorigin>
+  <link rel="preload" as="font" href="/vendor/font-5.ttf" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="/vendor/fonts.css">
   <link rel="stylesheet" href="/vendor/lenis.css">
   <link rel="stylesheet" href="/styles.css">
   <link rel="preload" as="image" href="/assets/decor.jpg" fetchpriority="high">
   <script src="/vendor/lenis.min.js" defer></script>
   <script src="/app.js" defer></script>
- 
 </head>
 <body>
 <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
@@ -40,7 +41,7 @@
 
 <header class="site-header">
   <a class="brand" href="#inicio" aria-label="Sítio Imperador · Imperador Eventos, início">
-    <img class="brand-logo" src="/assets/logo-imperador.png" width="200" height="113" alt="Imperador Eventos · Sítio Imperador">
+    <img class="brand-logo" src="/assets/logo-imperador.png" width="200" height="113" decoding="async" alt="Imperador Eventos · Sítio Imperador">
   </a>
   <nav class="desktop-nav" aria-label="Navegação principal">
     <a href="#o-espaco">O espaço</a>
@@ -72,12 +73,12 @@
 
 <main id="conteudo">
   <div class="botanical-flight-wrap hero-enter" id="traveling-botanical-wrap" style="--d:320ms" aria-hidden="true">
-    <img class="botanical-flight cutout" id="traveling-botanical" src="/assets/botanical.png" width="650" height="430" alt="" aria-hidden="true">
+    <img class="botanical-flight cutout" id="traveling-botanical" src="/assets/botanical.png" width="650" height="430" decoding="async" alt="" aria-hidden="true">
   </div>
 
   <section class="hero" id="inicio" aria-labelledby="hero-title">
     <div class="hero-image-wrap">
-      <img class="hero-image" src="/assets/decor.jpg" alt="Salão coberto envidraçado do Sítio Imperador com vista para a natureza em Betim" width="1500" height="1000" fetchpriority="high">
+      <img class="hero-image" src="/assets/decor.jpg" alt="Salão coberto envidraçado do Sítio Imperador com vista para a natureza em Betim" width="1500" height="1000" fetchpriority="high" decoding="async">
     </div>
     <div class="hero-shade"></div>
     <div class="hero-grid container">
@@ -93,7 +94,7 @@
       <aside class="hero-showcase hero-enter" style="--d:260ms" aria-label="Destaque da propriedade">
         <div class="hero-card" id="hero-botanical-card" data-tilt-card>
           <div class="hero-card-photo-wrap">
-            <img class="hero-card-photo" src="/assets/day-exterior.jpg" alt="Vista diurna da piscina com cascata e área externa do Sítio Imperador" width="640" height="440">
+            <img class="hero-card-photo" src="/assets/day-exterior.jpg" alt="Vista diurna da piscina com cascata e área externa do Sítio Imperador" width="640" height="440" decoding="async">
           </div>
           <div class="hero-card-body">
             <strong>Imperador Eventos · Betim</strong>
@@ -179,7 +180,7 @@
     </div>
     <div class="about-visual" id="about-botanical-card" data-tilt-card>
       <div class="arch-photo reveal" data-reveal="scale" style="--d:80ms">
-        <img src="/assets/garden.jpg" width="900" height="1100" loading="lazy" alt="Cerimônia montada na área externa do Sítio Imperador ao lado da piscina iluminada" data-parallax="65">
+        <img src="/assets/garden.jpg" width="900" height="1100" loading="lazy" decoding="async" alt="Cerimônia montada na área externa do Sítio Imperador ao lado da piscina iluminada" data-parallax="65">
       </div>
       <div class="photo-label reveal" data-reveal="up" style="--d:220ms">
         <span>CERIMÔNIA EXTERNA E PISCINA ILUMINADA · BETIM, MG</span>
@@ -210,7 +211,7 @@
           <div class="benefit-art-stage">
             <div class="art-halo"></div>
             <div class="cutout-wrap reveal" data-reveal="pop-3d" style="--d:180ms">
-              <img class="benefit-png cutout" src="/assets/toast.png" alt="" width="480" height="720" loading="lazy" aria-hidden="true" data-float="-110" data-drift="24" data-rotate="16" data-scale="0.18" data-phase="0.8">
+              <img class="benefit-png cutout" src="/assets/toast.png" alt="" width="480" height="720" loading="lazy" decoding="async" aria-hidden="true" data-float="-110" data-drift="24" data-rotate="16" data-scale="0.18" data-phase="0.8">
             </div>
           </div>
         </article>
@@ -219,7 +220,7 @@
           <div class="benefit-art-top">
             <div class="art-ring"></div>
             <div class="cutout-wrap reveal" data-reveal="pop-3d" style="--d:240ms">
-              <img class="benefit-png cutout" src="/assets/gastronomy.png" alt="" width="460" height="460" loading="lazy" aria-hidden="true" data-float="-90" data-drift="-22" data-rotate="-14" data-scale="0.16" data-phase="2.1">
+              <img class="benefit-png cutout" src="/assets/gastronomy.png" alt="" width="460" height="460" loading="lazy" decoding="async" aria-hidden="true" data-float="-90" data-drift="-22" data-rotate="-14" data-scale="0.16" data-phase="2.1">
             </div>
           </div>
           <div class="benefit-copy">
@@ -233,7 +234,7 @@
           <div class="benefit-art-top">
             <div class="art-ring"></div>
             <div class="cutout-wrap reveal" data-reveal="pop-3d" style="--d:200ms">
-              <img class="benefit-png cutout" src="/assets/lantern.png" alt="" width="440" height="440" loading="lazy" aria-hidden="true" data-float="-88" data-drift="20" data-rotate="13" data-scale="0.16" data-phase="3.4">
+              <img class="benefit-png cutout" src="/assets/lantern.png" alt="" width="440" height="440" loading="lazy" decoding="async" aria-hidden="true" data-float="-88" data-drift="20" data-rotate="13" data-scale="0.16" data-phase="3.4">
             </div>
           </div>
           <div class="benefit-copy">
@@ -254,7 +255,7 @@
           </div>
           <div class="benefit-art-stage benefit-art-layered">
             <div class="benefit-mini-photo-wrap">
-              <img class="benefit-mini-photo" src="/assets/pool-day.jpg" alt="Piscina com cascata do Sítio Imperador em Betim" width="520" height="360" loading="lazy" data-parallax="42">
+              <img class="benefit-mini-photo" src="/assets/pool-day.jpg" alt="Piscina com cascata do Sítio Imperador em Betim" width="520" height="360" loading="lazy" decoding="async" data-parallax="42">
             </div>
             <div class="benefit-botanical-anchor" id="benefit-botanical-anchor" aria-hidden="true"></div>
           </div>
@@ -273,7 +274,7 @@
     <div class="event-layout">
       <div class="event-media-column reveal" data-reveal="scale" style="--d:80ms">
         <div class="event-photo">
-          <img id="event-image" src="/assets/dance.jpg" width="1100" height="850" loading="lazy" alt="Casal celebrando seu casamento na pista de dança do Imperador Eventos" data-parallax="40">
+          <img id="event-image" src="/assets/dance.jpg" width="1100" height="850" loading="lazy" decoding="async" alt="Casal celebrando seu casamento na pista de dança do Imperador Eventos" data-parallax="40">
         </div>
         <div class="event-photo-bar">
           <span class="image-caption" id="event-caption">CASAMENTOS AO AR LIVRE E NO SALÃO COBERTO</span>
@@ -379,7 +380,7 @@
       <div class="gallery-grid">
         <figure class="gallery-card gallery-tall reveal" data-reveal="scale" style="--d:0ms">
           <button class="gallery-trigger" type="button" data-photo="/assets/pool.jpg" data-caption="Recepção noturna ao redor da piscina iluminada no Sítio Imperador" aria-label="Ampliar foto: Recepção na área da piscina">
-            <img src="/assets/pool.jpg" loading="lazy" width="800" height="1000" alt="Mesas de convidados montadas ao redor da piscina do Imperador Eventos" data-parallax="38">
+            <img src="/assets/pool.jpg" loading="lazy" decoding="async" width="800" height="1000" alt="Mesas de convidados montadas ao redor da piscina do Imperador Eventos" data-parallax="38">
           </button>
           <figcaption class="gallery-caption">
             <span>Piscina & deck externo para recepção</span>
@@ -389,7 +390,7 @@
 
         <figure class="gallery-card reveal" data-reveal="scale" style="--d:90ms">
           <button class="gallery-trigger" type="button" data-photo="/assets/hall.jpg" data-caption="Salão coberto decorado para festa e recepção com palco iluminado" aria-label="Ampliar foto: Salão coberto">
-            <img src="/assets/hall.jpg" loading="lazy" width="900" height="650" alt="Salão de festas coberto do Imperador Eventos com mesas postas">
+            <img src="/assets/hall.jpg" loading="lazy" decoding="async" width="900" height="650" alt="Salão de festas coberto do Imperador Eventos com mesas postas">
           </button>
           <figcaption class="gallery-caption">
             <span>Salão coberto com palco e iluminação</span>
@@ -399,7 +400,7 @@
 
         <figure class="gallery-card reveal" data-reveal="scale" style="--d:180ms">
           <button class="gallery-trigger" type="button" data-photo="/assets/celebration.jpg" data-caption="Mesa de bolo monumental em festa de 15 anos realizada no Imperador Eventos" aria-label="Ampliar foto: Decoração de 15 anos">
-            <img src="/assets/celebration.jpg" loading="lazy" width="900" height="650" alt="Decoração clássica de 15 anos no Sítio Imperador">
+            <img src="/assets/celebration.jpg" loading="lazy" decoding="async" width="900" height="650" alt="Decoração clássica de 15 anos no Sítio Imperador">
           </button>
           <figcaption class="gallery-caption">
             <span>Produção de 15 anos & casamentos</span>
@@ -409,7 +410,7 @@
 
         <figure class="gallery-card reveal" data-reveal="scale" style="--d:120ms">
           <button class="gallery-trigger" type="button" data-photo="/assets/rustic.jpg" data-caption="Mobiliário rústico em madeira nobre e cadeiras Tiffany no salão principal" aria-label="Ampliar foto: Mobiliário rústico no salão">
-            <img src="/assets/rustic.jpg" loading="lazy" width="900" height="650" alt="Mesas rústicas de madeira e arranjos florais no salão do Sítio Imperador">
+            <img src="/assets/rustic.jpg" loading="lazy" decoding="async" width="900" height="650" alt="Mesas rústicas de madeira e arranjos florais no salão do Sítio Imperador">
           </button>
           <figcaption class="gallery-caption">
             <span>Composição rústica no salão envidraçado</span>
@@ -419,7 +420,7 @@
 
         <figure class="gallery-card reveal" data-reveal="scale" style="--d:210ms">
           <button class="gallery-trigger" type="button" data-photo="/assets/flowers.jpg" data-caption="Aparador gastronômico mineiro e arranjo floral na varanda envidraçada" aria-label="Ampliar foto: Detalhes gastronômicos e florais">
-            <img src="/assets/flowers.jpg" loading="lazy" width="900" height="650" alt="Panelas de barro e arranjo floral no salão do Imperador Eventos">
+            <img src="/assets/flowers.jpg" loading="lazy" decoding="async" width="900" height="650" alt="Panelas de barro e arranjo floral no salão do Imperador Eventos">
           </button>
           <figcaption class="gallery-caption">
             <span>Charme mineiro e vista para o vale</span>
@@ -453,7 +454,7 @@
       </div>
     </div>
     <div class="location-visual reveal" data-reveal="scale" style="--d:120ms" data-tilt-card>
-      <img src="/assets/exterior.jpg" alt="Área externa noturna e salão iluminado do Sítio Imperador em Betim" width="1000" height="900" loading="lazy" data-parallax="50">
+      <img src="/assets/exterior.jpg" alt="Área externa noturna e salão iluminado do Sítio Imperador em Betim" width="1000" height="900" loading="lazy" decoding="async" data-parallax="50">
       <div class="location-card">
         <span class="location-card-icon"><svg><use href="#i-pin"/></svg></span>
         <span>
@@ -470,7 +471,7 @@
       <p class="faq-lead reveal" data-reveal="up" style="--d:100ms">Reunimos as informações públicas confirmadas do espaço para ajudar no seu planejamento antes da visita presencial.</p>
       <div class="faq-flower-anchor" id="faq-flower-anchor">
         <div class="cutout-wrap faq-flowers-wrap reveal" id="traveling-flowers-wrap" data-reveal="pop-3d" style="--d:180ms">
-          <img class="faq-flowers cutout" id="traveling-flowers" src="/assets/flowers.png" width="800" height="533" alt="" aria-hidden="true">
+          <img class="faq-flowers cutout" id="traveling-flowers" src="/assets/flowers.png" width="800" height="533" loading="lazy" decoding="async" alt="" aria-hidden="true">
         </div>
       </div>
     </div>
